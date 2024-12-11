@@ -1,0 +1,70 @@
+{
+	"name": "backend",
+	"version": "0.0.0",
+	"description": "backend",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/gv14982/backend"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "Graham Vasquez",
+		"email": "graham@gvasquez.dev"
+	},
+	"type": "module",
+	"main": "./build/index.js",
+	"files": [
+		"build/",
+		"package.json",
+		"LICENSE.md",
+		"README.md"
+	],
+	"scripts": {
+		"build": "tsup",
+		"build:watch": "tsup --watch",
+		"codegen": "graphql-codegen",
+		"codegen:watch": "graphql-codegen --watch",
+		"dev": "concurrently --killOthers --restart-tries 3 --restart-delay 3000 --names Compiler,GraphQL,Server \"pnpm:build:watch\" \"pnpm:codegen:watch\" \"pnpm:watch\"",
+		"format": "prettier .",
+		"lint": "eslint . --max-warnings 0",
+		"prepare": "husky",
+		"tsc": "tsc",
+		"watch": "nodemon --delay 3 build/index.js"
+	},
+	"lint-staged": {
+		"*": "prettier --ignore-unknown --write"
+	},
+	"dependencies": {
+		"graphql": "^16.9.0",
+		"graphql-yoga": "^5.10.3",
+		"winston": "^3.17.0"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.15.0",
+		"@graphql-codegen/cli": "^5.0.3",
+		"@graphql-codegen/typescript": "^4.1.1",
+		"@graphql-codegen/typescript-resolvers": "^4.4.0",
+		"@parcel/watcher": "^2.5.0",
+		"@types/eslint__js": "^8.42.3",
+		"@types/node": "^22.9.1",
+		"concurrently": "^9.1.0",
+		"eslint": "^9.15.0",
+		"eslint-plugin-n": "^17.14.0",
+		"husky": "^9.1.7",
+		"lint-staged": "^15.2.10",
+		"nodemon": "^3.1.7",
+		"prettier": "^3.3.3",
+		"prettier-plugin-curly": "^0.3.1",
+		"prettier-plugin-packagejson": "^2.5.5",
+		"prettier-plugin-sh": "^0.14.0",
+		"tsup": "^8.3.5",
+		"typescript": "^5.6.3",
+		"typescript-eslint": "^8.15.0"
+	},
+	"engines": {
+		"node": ">=18.3.0"
+	},
+	"publishConfig": {
+		"provenance": true
+	}
+}

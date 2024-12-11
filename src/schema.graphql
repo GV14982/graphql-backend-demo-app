@@ -1,0 +1,43 @@
+scalar Url # A custom scalar declaration. You might want to use this if you need to encode additional context into the type system
+enum BusinessType { # Enum definition
+	Retail
+	Hospitality
+	Service
+}
+interface NamedEntity { # This is the interface definition. It lists the required "base" shape of a type
+	name: String!
+}
+# This type implements the `NamedEntity` interface, so it must include the `name` field of type `String!`
+type Business implements NamedEntity {
+	name: String!
+	type: BusinessType!
+}
+type Person implements NamedEntity { # This type also implements the `NamedEntity` interface
+	name: String! # Non-null type. This field _must_ resolve to an `String` type
+	age: Int # Nullable type. This field can either resolve to an `Int` type or not be include and would resolve to `null`
+	friends: [Person!]! # List type. This is a non-null list of non-null `Person` types
+	photo: Url # Using the custom scalar we declared previously
+}
+type Photo {
+	height: Int
+	width: Int
+}
+type Comment {
+	body: String!
+	author: Person!
+}
+# This is a union of the `Photo` and `Comment` types. Neither type shares any fields, so this functionality is very flexible
+union SearchResult = Photo | Comment
+
+type Query {
+	person(name: String!): Person
+}
+input CreatePersonInput {
+	name: String!
+	age: Int
+	friends: [String!]
+	photo: Url
+}
+type Mutation {
+	create(input: CreatePersonInput!): Person
+}
